@@ -30,14 +30,18 @@ function fetchAndSaveData(filePath) {
 }
 
 program
-  .requiredOption('-i, --input <path>', 'Input JSON file')
+  .option('-i, --input <path>', 'Input JSON file')
   .option('-o, --output <path>', 'Output file')
   .option('-d, --display', 'Display result in console');
+  
 
 program.parse(process.argv);
 
 const options = program.opts();
-
+if (!options.input) {
+    console.error('Помилка: параметр -i (input) є обов\'язковим.');
+    program.help(); // Виводить допомогу і завершує програму
+}
 (async () => {
     if (!fs.existsSync(options.input)) {
         console.log('Файл не знайдено, завантажуємо нові дані...');
